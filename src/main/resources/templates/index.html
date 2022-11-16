@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>HOME</title>
+    </head>
+    <body>
+        <div class="container my-3">
+            <h1 class="fw-bold py-2">Búsqueda de Películas</h1>
+            
+            <!-- Formulario de Busqueda -->
+            <div class="py-2">
+                <form th:action="@{/search}" method="POST" class="row g-4">
+                    <div class="col-xs-12 col-md-4 col-lg-3">
+                        <label for="category" class="form-label text-muted small mx-2">Categoria</label>
+                        <select name="categoryId" id="category" class="form-select">
+                            <option th:value="0" selected>Seleccione Categoria</option>
+                            <option th:each="c:${categorias}"
+                                    th:value="${c.categoryId}"
+                                    th:text="${c.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-md-4 col-lg-6">
+                        <label for="title" class="form-label text-muted small mx-2">Titulo</label>
+                        <input type="search" name="title" id="title" class="form-control" placeholder="Ingrese Titulo..."> 
+                    </div>
+                    <div class="col-xs-12 col-md-4 col-lg-3 d-flex align-items-end justify-content-start">
+                        <button type="submit" class="btn btn-primary px-5 fw-bold">Buscar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Registros encontrados -->
+            <div class="mt-5 mb-3">
+                <h4 th:text="${resultado}" class="fw-bold"></h4>
+            </div>
+            
+            <!-- Tabla -->
+            <table class="table table-hover align-middle text-center text-muted my-4">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Id Film</th>
+                        <th>Titulo</th>
+                        <th>Duración</th>
+                        <th>Rating</th>
+                        <th>Precio</th>
+                        <th>Duración Arriendo</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="f : ${films}">
+                        <td th:text="${f.categories.get(0).name}"></td>
+                        <td th:text="${f.filmId}"></td>
+                        <td th:text="${f.title}"></td>
+                        <td th:text="${f.length}"></td>
+                        <td th:text="${f.rating}"></td>
+                        <td th:text="${f.rentalRate}"></td>
+                        <td th:text="${f.rentalDuration}"></td>
+                        <td><a href="#" class="btn btn-outline-primary btn-sm fw-bold">VER</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
